@@ -1,0 +1,9 @@
+<slb-calendar-header [startDate]="fromDate" [firstDayOfWeek]="firstDayOfWeek" [lengthOfWeek]="lengthOfWeek"
+  [numberOfWeeks]="numberOfWeeks"></slb-calendar-header>
+<div cdkDropList (cdkDropListDropped)="drop($event)" #resourcesListRef="cdkDropList" [cdkDropListData]="resources"
+  [cdkDropListConnectedTo]="[]">
+  <slb-week *ngFor="let resource of resources" [resource]="resource" [startDate]="fromDate" [firstDayOfWeek]="firstDayOfWeek"
+    [lengthOfWeek]="lengthOfWeek" [numberOfWeeks]="numberOfWeeks" [events]="events" cdkDrag>
+    <slb-resource [name]="resource.name" [color]="resource.color" cdkDragHandle></slb-resource>
+  </slb-week>
+</div>

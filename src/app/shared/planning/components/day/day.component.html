@@ -1,0 +1,5 @@
+<div class="day" [ngClass]="{weekend: isWeekend()}">
+  <div class="today-line" *ngIf="isToday()" [ngStyle]="{left: ellapsedFromToday}"></div>
+  <div class="am"></div>
+  <div class="pm"></div>
+</div>
