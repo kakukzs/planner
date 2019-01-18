@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ResizableModule } from 'angular-resizable-element';
-
+import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PlanningRoutingModule } from './planning-routing.module';
 import { PlanningHomeComponent } from './pages/planning-home/planning-home.component';
@@ -18,6 +18,7 @@ import { CalendarHeaderComponent } from './components/calendar-header/calendar-h
     CommonModule,
     DragDropModule,
     ResizableModule,
+    GridModule,
     PlanningRoutingModule
   ]
 })

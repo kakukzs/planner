@@ -4,8 +4,8 @@
     [events]="events" [resourceId]="resource.id" [ngStyle]="{width: dayWidth}"></slb-day>
   <div class="event-list" [ngStyle]="{marginLeft: dayWidth, width: eventListWidth}">
     <div class="event-holder" *ngFor="let dateInfo of dates; let i = index" cdkDropList #eventList="cdkDropList"
-      [cdkDropListData]="getMyEvents(dateInfo)" [cdkDropListConnectedTo]="connectedLists[i]" (cdkDropListDropped)="drop($event)"
-      [ngStyle]="{width: dayWidthInner}">
+      [cdkDropListData]="getMyEvents(dateInfo)" [cdkDropListConnectedTo]="connectedLists" (cdkDropListDropped)="drop($event)"
+      [ngStyle]="{width: dayWidthInner}" id="{{'droplist-' + resource.id + '-' + i}}">
       <div class="event" cdkDrag *ngFor="let event of getMyEvents(dateInfo)" mwlResizable [resizeCursorPrecision]="20"
         [enableGhostResize]="true" [resizeEdges]="{right: true}">
         <div class="event-drag-handle" cdkDragHandle></div>

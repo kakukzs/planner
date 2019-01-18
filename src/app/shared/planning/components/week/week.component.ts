@@ -5,6 +5,8 @@ import { dayCodes } from '../../models/day.model';
 import { Event } from '../../models/event.model';
 import { Resource } from '../../models/resource.model';
 import { DateService } from '../../services/date.service';
+import { products } from '../../pages/planning-home/products';
+
 
 @Component({
   selector: 'slb-week',
@@ -18,6 +20,7 @@ export class WeekComponent implements OnInit, AfterViewInit {
   @Input() lengthOfWeek: number;
   @Input() numberOfWeeks: number;
   @Input() resource: Resource;
+  @Input() resources: Resource[];
   @Input() events: Event[];
 
   myEvents: Map<{ date: number, month: number, year: number }, Event[]> = new Map();
@@ -50,9 +53,15 @@ export class WeekComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => {
       for (let i = 0; i < this.dates.length; i++) {
-        this.connectedLists.push(this.eventListRefArr
-          .filter((item: ElementRef, idx) => i !== idx)
-          .map((value: ElementRef) => value));
+        //this.connectedLists.push(this.eventListRefArr
+        //  .filter((item: ElementRef, idx) => i !== idx)
+        //  .map((value: ElementRef) => value));
+        for (let resource of this.resources) {
+          this.connectedLists.push(`droplist-${resource.id}-${i}`);
+        }
+      }
+      for (let i = 0; i < products.length; i++) {
+        this.connectedLists.push(`category-tags-2-${i}`);
       }
     });
   }

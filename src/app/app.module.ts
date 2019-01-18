@@ -5,6 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SlbDroplistComponent } from './slb-droplist/slb-droplist.component';
 import { HomeComponent } from './pages/home/home.component';
+import { GridModule } from '@progress/kendo-angular-grid';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 
 @NgModule({
   declarations: [
@@ -14,7 +18,9 @@ import { HomeComponent } from './pages/home/home.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    GridModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

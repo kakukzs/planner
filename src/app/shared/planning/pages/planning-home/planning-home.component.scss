@@ -1,3 +1,17 @@
+.tag-container {
+  align-items: flex-start;
+  display: flex;
+  justify-content: start;
+
+  .tag {
+    background-color: lightcoral;
+    border-radius: 3px;
+    color: #fff;
+    margin-right: 5px;
+    padding: 2px 5px;
+  }
+}
+
 .cdk-drag-preview {
   box-sizing: border-box;
   border-radius: 4px;
