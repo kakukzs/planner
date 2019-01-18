@@ -1,9 +1,36 @@
-<slb-calendar-header [startDate]="fromDate" [firstDayOfWeek]="firstDayOfWeek" [lengthOfWeek]="lengthOfWeek"
-  [numberOfWeeks]="numberOfWeeks"></slb-calendar-header>
-<div cdkDropList (cdkDropListDropped)="drop($event)" #resourcesListRef="cdkDropList" [cdkDropListData]="resources"
-  [cdkDropListConnectedTo]="[]">
-  <slb-week *ngFor="let resource of resources" [resource]="resource" [startDate]="fromDate" [firstDayOfWeek]="firstDayOfWeek"
-    [lengthOfWeek]="lengthOfWeek" [numberOfWeeks]="numberOfWeeks" [events]="events" cdkDrag>
-    <slb-resource [name]="resource.name" [color]="resource.color" cdkDragHandle></slb-resource>
-  </slb-week>
+<table>
+  <tr style="width:2014px; display: block;">
+   <td>
+ 
+
+  <div style="width:500px;" >
+  <kendo-grid
+  [kendoGridGroupBinding]="data"
+  [navigable]="true"
+  [groupable]="true"
+  [sortable]="true"
+  [pageSize]="80"
+  [rowHeight]="35"
+  [height]="450"
+  scrollable="virtual"
+  >
+  <kendo-grid-column field="firstName" title="Next Ship Date" [width]="130"></kendo-grid-column>
+  <kendo-grid-column field="city" title="TCO Number" [width]="130"></kendo-grid-column>
+  <kendo-grid-column field="title" title="Product Group" [width]="180"></kendo-grid-column>
+  </kendo-grid>
 </div>
+    </td> 
+<td style="width:100%;">
+  <div >
+  <slb-calendar-header [startDate]="fromDate" [firstDayOfWeek]="firstDayOfWeek" [lengthOfWeek]="lengthOfWeek"
+    [numberOfWeeks]="numberOfWeeks"></slb-calendar-header>
+  <div cdkDropList (cdkDropListDropped)="drop($event)" #resourcesListRef="cdkDropList" [cdkDropListData]="resources"
+    [cdkDropListConnectedTo]="[]">
+    <slb-week *ngFor="let resource of resources" [resource]="resource" [startDate]="fromDate" [firstDayOfWeek]="firstDayOfWeek"
+      [lengthOfWeek]="lengthOfWeek" [numberOfWeeks]="numberOfWeeks" [events]="events" cdkDrag>
+      <slb-resource [name]="resource.name" [color]="resource.color" cdkDragHandle></slb-resource>
+    </slb-week>
+  </div>
+  </div>
+</td>
+  </tr>

@@ -7,6 +7,11 @@ import { Event } from '../../models/event.model';
 import { Resource } from '../../models/resource.model';
 import { DateService } from '../../services/date.service';
 
+import {
+  GridDataResult,
+  PageChangeEvent
+} from '@progress/kendo-angular-grid';
+
 @Component({
   selector: 'app-planning-home',
   templateUrl: './planning-home.component.html',
@@ -19,6 +24,10 @@ export class PlanningHomeComponent implements OnInit {
   firstDayOfWeek: dayCodes = dayCodes.MO;
   lengthOfWeek: number = 7;
   numberOfWeeks: number = 2;
+
+  public data: any[] = [];
+
+
 
   resources: Resource[] = [
     { id: 1, name: 'Resource 001', color: 'orange' },
@@ -48,7 +57,9 @@ export class PlanningHomeComponent implements OnInit {
     }
   ];
 
-  constructor() { }
+  constructor() {
+    this.data = this.createRandomData(100000);
+  }
 
   ngOnInit() {
   }
@@ -63,4 +74,22 @@ export class PlanningHomeComponent implements OnInit {
         event.currentIndex);
     }
   }
+
+
+  // ---------------
+  private createRandomData(count: number): any[] {
+    const firstNames = ['18-Jan-2012 05:30','20-Jan-2012 05:30','15-Mar-2012 15:30','20-Jul-2014 05:30','1-Jan-2018 05:30','11-Feb-2014 05:30','14-Sep-2012 12:13'],
+        lastNames = [],
+        cities = ['11RCB0240-0300-3-800', '11RCB0240-0300-3-797','11RCB0240-0300-3-243','11RCB0240-0300-3-324'],
+        titles = ['COLLARS', 'RESISTIVITY', 'DMHV MATERIALS AND SUPPLIES', 'SUBS', 'SLIMPULSE'];
+
+    return Array(count).fill({}).map((_, idx) => ({
+        id: idx + 1,
+        firstName: firstNames[Math.floor(Math.random() * firstNames.length)],
+        lastName: lastNames[Math.floor(Math.random() * lastNames.length)],
+        city: cities[Math.floor(Math.random() * cities.length)],
+        title: titles[Math.floor(Math.random() * titles.length)]
+    })
+    );
+}
 }
