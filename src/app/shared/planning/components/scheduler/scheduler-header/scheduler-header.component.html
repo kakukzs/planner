@@ -1,0 +1,7 @@
+<div class="resource-head">
+  <div class="title"></div>
+</div>
+<div *ngFor="let date of dates" class="day">
+  <span class="date">{{date | date:'EEE'}}</span>
+  <span class="date">{{date | date:'dd MMM'}}</span>
+</div>

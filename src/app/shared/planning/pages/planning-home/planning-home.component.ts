@@ -1,88 +1,89 @@
 import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
-
-import { dayCodes } from '../../models/day.model';
-import { Event } from '../../models/event.model';
 import { Resource } from '../../models/resource.model';
-import { DateService } from '../../services/date.service';
 import { products } from './products';
+import { SchedulerEvent } from '../../models/scheduler-event.model';
+import { SchedulerService } from '../../services/scheduler.service';
+import { SchedulerConfig } from '../../models/scheduler-config.model';
 
 @Component({
-  selector: 'app-planning-home',
-  templateUrl: './planning-home.component.html',
-  styleUrls: ['./planning-home.component.scss'],
-  providers: [DateService]
+    selector: 'app-planning-home',
+    templateUrl: './planning-home.component.html',
+    styleUrls: ['./planning-home.component.scss']
 })
 export class PlanningHomeComponent implements OnInit {
 
-  fromDate: Date = new Date();
-  firstDayOfWeek: dayCodes = dayCodes.MO;
-  lengthOfWeek: number = 7;
-  numberOfWeeks: number = 2;
+    gridData: any[] = products;
 
-  gridData: any[] = products;
+    dates: Date[];
 
-  dates: Array<{ date: number, month: number, year: number }>;
+    public resources: Resource[] = [{
+        name: 'Bays',
+        data: [
+            { text: 'Resource 001', value: 1, color: 'orange' },
+            { text: 'Resource 002', value: 2, color: 'pink' },
+            { text: 'Resource 003', value: 3, color: 'cyan' },
+            { text: 'Resource 004', value: 4, color: 'lightblue' },
+        ],
+        field: 'roomId',
+        valueField: 'value',
+        textField: 'text',
+        colorField: 'color'
+    }];
 
-  resources: Resource[] = [
-    { id: 1, name: 'Resource 001', color: 'orange' },
-    { id: 2, name: 'Resource 002', color: 'pink' },
-    { id: 3, name: 'Resource 003', color: 'cyan' },
-    { id: 4, name: 'Resource 004', color: 'lightblue' },
-  ];
+    public kendoGroup: any = {
+        resources: ['Bays'],
+        orientation: 'vertical'
+    };
 
-  events: Event[] = [
-    {
-      name: 'Meeting with subordinates',
-      resourceId: 1,
-      length: 30,
-      startDate: (function () { const d = new Date(); d.setDate(d.getDate() + 2); return d; }())
-    },
-    {
-      name: 'Testing approach clarification',
-      resourceId: 1,
-      length: 30,
-      startDate: (function () { const d = new Date(); d.setDate(d.getDate() + 2); return d; }())
-    },
-    {
-      name: 'Knowledge share with client',
-      resourceId: 4,
-      length: 30,
-      startDate: (function () { const d = new Date(); d.setDate(d.getDate() - 1); return d; }())
+    events: SchedulerEvent[] = [
+        {
+            title: 'Meeting with subordinates',
+            OwnerID: 1,
+            start: (function () { const d = new Date(); d.setDate(d.getDate() + 2); return d; }()),
+            end: (function () { const d = new Date(); d.setDate(d.getDate() + 2); d.setMinutes(d.getMinutes() + 60); return d; }())
+        },
+        {
+            title: 'Testing approach clarification',
+            OwnerID: 1,
+            start: (function () { const d = new Date(); d.setDate(d.getDate() + 2); return d; }()),
+            end: (function () { const d = new Date(); d.setDate(d.getDate() + 2); d.setMinutes(d.getMinutes() + 60); return d; }())
+        },
+        {
+            title: 'Knowledge share with client',
+            OwnerID: 4,
+            start: (function () { const d = new Date(); d.setDate(d.getDate()); return d; }()),
+            end: (function () { const d = new Date(); d.setDate(d.getDate() + 2); d.setMinutes(d.getMinutes() + 60); return d; }())
+        }
+    ];
+
+    constructor(private schedulerService: SchedulerService) { }
+
+    ngOnInit() {
+        this.schedulerService.getConfigObservable().subscribe((config: SchedulerConfig) => {
+            this.dates = this.schedulerService.getDates(config.start, config.firstDayOfWeek, config.lengthOfWeek, config.numberOfWeeks);
+        });
     }
-  ];
 
-  constructor(private dateService: DateService) { }
-
-  ngOnInit() {
-    this.dates = this.dateService.getDates(this.fromDate, this.firstDayOfWeek, this.lengthOfWeek, this.numberOfWeeks);
-  }
-
-  drop(event: CdkDragDrop<Event[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
+    getDroplistIds(): string[] {
+        const lists = [];
+        for (let i = 0; i < this.dates.length; i++) {
+            // this.connectedLists.push(this.eventListRefArr
+            //  .filter((item: ElementRef, idx) => i !== idx)
+            //  .map((value: ElementRef) => value));
+            for (const resourceGroup of this.resources) {
+                for (const resource of resourceGroup.data) {
+                    lists.push(`droplist-${resource[resourceGroup.valueField]}-${i}`);
+                }
+            }
+        }
+        for (let i = 0; i < this.gridData.length; i++) {
+            lists.push(`category-tags-2-${i}`);
+        }
+        return lists;
     }
-  }
 
-  getConnectedProductLists(): string[] {
-    const lists = [];
-    for (let i = 0; i < this.dates.length; i++) {
-      //this.connectedLists.push(this.eventListRefArr
-      //  .filter((item: ElementRef, idx) => i !== idx)
-      //  .map((value: ElementRef) => value));
-      for (let resource of this.resources) {
-        lists.push(`droplist-${resource.id}-${i}`);
-      }
+    log(object) {
+        console.log(object);
     }
-    for (let i = 0; i < this.gridData.length; i++) {
-      lists.push(`category-tags-2-${i}`);
-    }
-    return lists;
-  }
 }

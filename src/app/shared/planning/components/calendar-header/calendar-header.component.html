@@ -1,7 +1,0 @@
-<div class="resource-head">
-  <div class="title"></div>
-</div>
-<div *ngFor="let dateInfo of dates" class="day">
-  <span class="date">{{getDate(dateInfo.date, dateInfo.month, dateInfo.year) | date:'EEE'}}</span>
-  <span class="date">{{getDate(dateInfo.date, dateInfo.month, dateInfo.year) | date:'dd MMM'}}</span>
-</div>

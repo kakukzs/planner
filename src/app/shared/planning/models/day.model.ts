@@ -1,3 +1,3 @@
 export enum dayCodes {
-  SU, MO, TU, WE, TH, FR, SA
+    SU, MO, TU, WE, TH, FR, SA
 };

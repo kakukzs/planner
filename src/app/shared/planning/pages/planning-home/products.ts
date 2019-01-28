@@ -196,7 +196,7 @@ export const products = [{
     "CategoryID": 1,
     "name": "Beverages",
     "Description": "Soft drinks, coffees, teas, beers, and ales"
-  }
+  }]
 }, {
   "ProductID": 2,
   "ProductName": "Chang",

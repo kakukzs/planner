@@ -7,6 +7,8 @@ import { SlbDroplistComponent } from './slb-droplist/slb-droplist.component';
 import { HomeComponent } from './pages/home/home.component';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SchedulerModule } from '@progress/kendo-angular-scheduler';
+
 
 
 
@@ -20,7 +22,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     AppRoutingModule,
     GridModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    SchedulerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

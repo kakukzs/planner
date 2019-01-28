@@ -1,5 +1,15 @@
 export interface Resource {
-  id: number;
-  name: string;
-  color: string;
+    colorField?: string;
+
+    data: any[];
+
+    field: string;
+
+    multiple?: boolean;
+
+    name?: string;
+
+    textField: string;
+
+    valueField: string;
 }
