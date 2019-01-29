@@ -1,7 +1,6 @@
-<div class="resource-head">
-  <div class="title"></div>
+<div class="resource-head {{getHeaderClass()}}" [ngStyle]="{flex: config.resourceColumnWidth}">
+    <div class="title">&nbsp;</div>
 </div>
-<div *ngFor="let date of dates" class="day">
-  <span class="date">{{date | date:'EEE'}}</span>
-  <span class="date">{{date | date:'dd MMM'}}</span>
+<div *ngFor="let date of dates" class="day {{getHeaderClass()}}">
+    {{date | date: getDateFormat()}}
 </div>

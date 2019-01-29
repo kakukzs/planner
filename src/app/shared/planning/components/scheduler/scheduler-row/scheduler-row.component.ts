@@ -39,9 +39,6 @@ export class SchedulerRowComponent implements OnChanges {
 
     ngOnChanges() {
         if (this.dates) {
-            this.dayWidth = `${100 / (this.dates.length + 1)}%`;
-            this.dayWidthInner = `${100 / this.dates.length}%`;
-            this.eventListWidth = `${100 - 100 / (this.dates.length + 1)}%`;
             this.id = `scheduler-row-droplist-${this.resource[this.fieldNames.valueField]}`;
             for (let i = 0; i < this.dates.length; i++) {
                 this.myEvents.set(this.dates[i], this.filterMyEvents(this.dates[i]));

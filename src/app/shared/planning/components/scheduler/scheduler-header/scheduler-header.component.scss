@@ -1,25 +1,24 @@
 :host {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-evenly;
-
-  > /deep/ * {
-    height: 30px;
-  }
+    display: flex;
+    align-items: flex-start;
 }
 
 .resource-head, .day {
-  align-items: flex-start;
-  font-size: 12px;
-  border: 1px solid #333;
-  display: flex;
-  flex: 1;
-  justify-content: space-evenly;
-  position: relative;
-  text-align: center;
+    border: 1px solid #333;
+    flex: 1;
+    padding: 3px 0;
+    position: relative;
+    text-align: center;
 }
 
-.resource-head {
-  border: 1px solid #333;
-  flex: 1;
+.small {
+    font-size: 12px;
+}
+
+.medium {
+    font-size: 13px;
+}
+
+.big {
+    font-size: 14px;
 }

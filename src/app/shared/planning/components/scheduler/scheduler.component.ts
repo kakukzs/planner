@@ -23,6 +23,8 @@ export class SchedulerComponent implements OnInit, OnDestroy {
     schedulerViews: SchedulerConfig[];
     dates: Date[];
 
+    resourceColumnWidth = 1;
+
     constructor(private schedulerService: SchedulerService) {
         this.schedulerViews = this.schedulerService.getSchedulerViews();
     }
@@ -31,6 +33,7 @@ export class SchedulerComponent implements OnInit, OnDestroy {
         this.config$ = this.schedulerService.getConfigObservable();
         this.configSubscription = this.config$.subscribe((config: SchedulerConfig) => {
             this.dates = this.schedulerService.getDates(config.start, config.firstDayOfWeek, config.lengthOfWeek, config.numberOfWeeks);
+            this.resourceColumnWidth = config.resourceColumnWidth;
         });
     }
 

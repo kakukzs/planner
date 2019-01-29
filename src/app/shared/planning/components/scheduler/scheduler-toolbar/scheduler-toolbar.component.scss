@@ -1,0 +1,11 @@
+.scheduler-toolbar {
+    border: 1px solid #333;
+    border-bottom: 0;
+    font-size: 13px;
+    padding: 4px;
+
+    .scheduler-view-label {
+        display: inline-block;
+        margin-right: 5px;
+    }
+}

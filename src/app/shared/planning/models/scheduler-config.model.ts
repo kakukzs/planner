@@ -3,20 +3,38 @@ import { dayCodes } from './day.model';
 export interface SchedulerConfig {
     /* The unique name of the config for identification */
     name?: string;
+
     /* The display text of the config for showing in e.g. view dropdown */
     text?: string;
+
     /* The start date of the current view of the scheduler calendar. */
     start?: Date;
+
     /* The first day of the week. If start date is not the same day then the view is reverted. */
     firstDayOfWeek?: dayCodes;
+
     /* Number of the days to show in the view. Can be only between 1 and 7. */
     lengthOfWeek?: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+
+    /* The format of the header date display
+     * - 'short': Jan 28
+     * - 'normal': Mon, Jan 28
+     * - 'long': Monday, January 28 */
+    headerDateFormat?: 'short' | 'normal' | 'long';
+
+    /* The ratio of the width of resource column compared to day columns.
+     * E.g. 0.2 means 1/5th of the day columns */
+    resourceColumnWidth?: number;
+
     /* Number of weeks to show. */
     numberOfWeeks?: number;
+
     /* Number of time slots inside one day. */
     timeSlots?: number;
+
     /* The start time of the calendar day. */
     startTime?: Date;
+
     /* The end time of the calendar day. */
     endTime?: Date;
 }
@@ -46,6 +64,8 @@ export const defaultConfig: SchedulerConfig = {
     firstDayOfWeek: dayCodes.MO,
     lengthOfWeek: 7,
     numberOfWeeks: 1,
+    headerDateFormat: 'normal',
+    resourceColumnWidth: 1,
     timeSlots: 2,
     startTime,
     endTime
@@ -57,6 +77,8 @@ export const schedulerViews: SchedulerConfig[] = [
         text: 'Day',
         lengthOfWeek: 2,
         numberOfWeeks: 1,
+        headerDateFormat: 'long',
+        resourceColumnWidth: 0.2,
         timeSlots: 4
     },
     {
@@ -64,6 +86,8 @@ export const schedulerViews: SchedulerConfig[] = [
         text: 'Week',
         lengthOfWeek: 7,
         numberOfWeeks: 1,
+        headerDateFormat: 'normal',
+        resourceColumnWidth: 1,
         timeSlots: 2
     },
     {
@@ -71,6 +95,8 @@ export const schedulerViews: SchedulerConfig[] = [
         text: '3 weeks',
         lengthOfWeek: 7,
         numberOfWeeks: 3,
+        headerDateFormat: 'short',
+        resourceColumnWidth: 1,
         timeSlots: 1
     }
 ];

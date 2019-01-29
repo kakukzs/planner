@@ -1,3 +1,6 @@
-<select name="scheduler_view" id="scheduler_view_dropdown" [(ngModel)]="viewIndex" (change)="onConfigChage()">
-    <option *ngFor="let view of schedulerViews; let i = index" [value]="i">{{view.text}}</option>
-</select>
+<div class="scheduler-toolbar">
+    <label for="scheduler_view_dropdown" class="scheduler-view-label">View:</label>
+    <select name="scheduler_view" id="scheduler_view_dropdown" [(ngModel)]="viewIndex" (change)="onConfigChage()">
+        <option *ngFor="let view of schedulerViews; let i = index" [value]="i">{{view.text}}</option>
+    </select>
+</div>

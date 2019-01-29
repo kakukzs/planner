@@ -1,5 +1,5 @@
 <slb-scheduler-toolbar [schedulerViews]="schedulerViews" (configChanged)="onConfigChanged($event)"></slb-scheduler-toolbar>
-<slb-scheduler-header [dates]="dates"></slb-scheduler-header>
+<slb-scheduler-header [dates]="dates" [config]="config$ | async"></slb-scheduler-header>
 
 <div *ngFor="let resourceGroup of resources" class="resource-group">
     <div class="resource-group--name">{{resourceGroup.name}}</div>
@@ -8,7 +8,7 @@
         <slb-scheduler-row *ngFor="let resource of resourceGroup.data" [resource]="resource" [dates]="dates" [events]="events"
             [fieldNames]="resourceGroup | fieldNames" [lists]="lists" [config]="config$ | async" (eventChanged)="eventChanged($event)"
             cdkDrag>
-            <slb-resource [resource]="resource" [fieldNames]="resourceGroup | fieldNames" cdkDragHandle></slb-resource>
+            <slb-resource [resource]="resource" [fieldNames]="resourceGroup | fieldNames" cdkDragHandle [ngStyle]="{flex: resourceColumnWidth}"></slb-resource>
         </slb-scheduler-row>
     </div>
 </div>
