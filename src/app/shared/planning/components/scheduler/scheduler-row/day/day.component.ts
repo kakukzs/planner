@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { SchedulerService } from 'src/app/shared/planning/services/scheduler.service';
+import { SchedulerConfig } from 'src/app/shared/planning/models/scheduler-config.model';
 
 @Component({
     selector: 'slb-day',
@@ -7,12 +9,29 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 })
 export class DayComponent implements OnInit, OnDestroy {
 
-    @Input() date: Date;
+    @Input() date: Date; // the date that this component represent
 
+    @Input()
+    set config(newConfig: SchedulerConfig) {
+        if (newConfig.timeSlots !== undefined && newConfig.startTime !== undefined && newConfig.endTime !== undefined) {
+            const startTS = newConfig.startTime.getTime();
+            const endTS = newConfig.endTime.getTime();
+            if (newConfig.timeSlots > 0 && endTS > startTS) {
+                const timeRange = endTS - startTS;
+                this.timeArray = [];
+                for (let i = 0, inc = timeRange / newConfig.timeSlots; i < newConfig.timeSlots; i++) {
+                    const date = new Date();
+                    date.setTime(startTS + inc * i);
+                    this.timeArray.push(date);
+                }
+            }
+        }
+    }
+    timeArray: Date[] = [];
     ellapsedFromToday: String;
     intervalIDForEllapsedFromToday: any;
 
-    constructor() { }
+    constructor(private schedulerService: SchedulerService) { }
 
     ngOnInit() {
         this.ellapsedFromToday = this.getEllapsedFromToday();

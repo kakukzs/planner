@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChildren, QueryList, ElementRef, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, QueryList, ElementRef, OnChanges, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 import { Resource } from '../../../models/resource.model';
@@ -19,8 +19,11 @@ export class SchedulerRowComponent implements OnChanges {
     @Input() events: SchedulerEvent[];
     @Input() fieldNames: Partial<Resource>;
     @Input() lists: string[] = [];
+    @Input() config: SchedulerConfig;
 
-    myEvents: Object = {};
+    @Output() eventChanged: EventEmitter<{ oldEvent: SchedulerEvent, newEvent: SchedulerEvent }>;
+
+    myEvents: Map<Date, SchedulerEvent[]> = new Map();
     dayWidth: String;
     dayWidthInner: String;
     eventListWidth: String;
@@ -30,7 +33,9 @@ export class SchedulerRowComponent implements OnChanges {
     @ViewChildren('eventList')
     eventListRefArr: QueryList<ElementRef>;
 
-    constructor(private schedulerService: SchedulerService) { }
+    constructor(private schedulerService: SchedulerService) {
+        this.eventChanged = new EventEmitter<{ oldEvent: SchedulerEvent, newEvent: SchedulerEvent }>();
+    }
 
     ngOnChanges() {
         if (this.dates) {
@@ -39,7 +44,7 @@ export class SchedulerRowComponent implements OnChanges {
             this.eventListWidth = `${100 - 100 / (this.dates.length + 1)}%`;
             this.id = `scheduler-row-droplist-${this.resource[this.fieldNames.valueField]}`;
             for (let i = 0; i < this.dates.length; i++) {
-                this.myEvents[String(this.dates[i])] = this.filterMyEvents(this.dates[i]);
+                this.myEvents.set(this.dates[i], this.filterMyEvents(this.dates[i]));
             }
         }
     }
@@ -55,17 +60,22 @@ export class SchedulerRowComponent implements OnChanges {
     }
 
     getMyEvents(date: Date): SchedulerEvent[] {
-        return this.myEvents[String(date)];
+        return this.myEvents.get(date);
     }
 
-    drop(event: CdkDragDrop<SchedulerEvent[]>) {
-        if (event.previousContainer === event.container) {
-            moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-        } else {
-            transferArrayItem(event.previousContainer.data,
-                event.container.data,
-                event.previousIndex,
-                event.currentIndex);
-        }
+    drop(event: CdkDragDrop<[Date, number]>) {
+        const droplistData = event.container.data;
+        const schedulerEvent: SchedulerEvent = event.item.data;
+        const end = new Date();
+        end.setTime(droplistData[0].getTime() + schedulerEvent.end.getTime() - schedulerEvent.start.getTime());
+        this.eventChanged.emit({
+            oldEvent: schedulerEvent,
+            newEvent: {
+                ...schedulerEvent,
+                OwnerID: droplistData[1],
+                start: droplistData[0],
+                end
+            }
+        });
     }
 }

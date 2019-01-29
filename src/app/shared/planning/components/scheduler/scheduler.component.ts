@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 import { SchedulerService } from '../../services/scheduler.service';
 import { Resource } from '../../models/resource.model';
 import { SchedulerEvent } from '../../models/scheduler-event.model';
 import { SchedulerConfig } from '../../models/scheduler-config.model';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
     selector: 'slb-scheduler',
@@ -12,20 +13,29 @@ import { SchedulerConfig } from '../../models/scheduler-config.model';
     styleUrls: ['./scheduler.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SchedulerComponent implements OnInit {
+export class SchedulerComponent implements OnInit, OnDestroy {
     @Input() events = [];
     @Input() resources: Resource[] = [];
     @Input() lists: string[] = [];
 
-    config: SchedulerConfig;
+    config$: BehaviorSubject<SchedulerConfig>;
+    configSubscription: Subscription;
+    schedulerViews: SchedulerConfig[];
     dates: Date[];
 
-    constructor(private schedulerService: SchedulerService) { }
+    constructor(private schedulerService: SchedulerService) {
+        this.schedulerViews = this.schedulerService.getSchedulerViews();
+    }
 
     ngOnInit() {
-        this.schedulerService.getConfigObservable().subscribe((config: SchedulerConfig) => {
+        this.config$ = this.schedulerService.getConfigObservable();
+        this.configSubscription = this.config$.subscribe((config: SchedulerConfig) => {
             this.dates = this.schedulerService.getDates(config.start, config.firstDayOfWeek, config.lengthOfWeek, config.numberOfWeeks);
         });
+    }
+
+    ngOnDestroy() {
+        this.configSubscription.unsubscribe();
     }
 
     onConfigChanged(newConfig: SchedulerConfig) {
@@ -41,5 +51,9 @@ export class SchedulerComponent implements OnInit {
                 event.previousIndex,
                 event.currentIndex);
         }
+    }
+
+    eventChanged(event: { oldEvent: SchedulerEvent, newEvent: SchedulerEvent }) {
+        this.schedulerService.updateEvent(event.oldEvent, event.newEvent);
     }
 }

@@ -1,12 +1,12 @@
 <div class="week" [id]="id">
     <ng-content [ngStyle]="{width: dayWidth}"></ng-content>
-    <slb-day *ngFor="let date of dates" [date]="date" [ngStyle]="{width: dayWidth}"></slb-day>
+    <slb-day *ngFor="let date of dates" [date]="date" [ngStyle]="{width: dayWidth}" [config]="config"></slb-day>
     <div class="event-list" [ngStyle]="{marginLeft: dayWidth, width: eventListWidth}">
         <div class="event-holder" *ngFor="let date of dates; let i = index" cdkDropList #eventList="cdkDropList"
-            [cdkDropListData]="getMyEvents(date)" [cdkDropListConnectedTo]="lists" (cdkDropListDropped)="drop($event)"
-            [ngStyle]="{width: dayWidthInner}" id="{{'droplist-' + resource[fieldNames.valueField] + '-' + i}}">
-            <div class="event" cdkDrag *ngFor="let event of getMyEvents(date)" mwlResizable [resizeCursorPrecision]="20"
-                [enableGhostResize]="true" [resizeEdges]="{right: true}">
+            [cdkDropListData]="[date,resource[fieldNames.valueField]]" [cdkDropListConnectedTo]="lists"
+            (cdkDropListDropped)="drop($event)" [ngStyle]="{width: dayWidthInner}" id="{{'droplist-' + resource[fieldNames.valueField] + '-' + i}}">
+            <div class="event" *ngFor="let event of getMyEvents(date)" cdkDrag [cdkDragData]="event" mwlResizable
+                [resizeCursorPrecision]="20" [enableGhostResize]="true" [resizeEdges]="{right: true}">
                 <div class="event-drag-handle" cdkDragHandle></div>
                 <div [innerHTML]="event.title | boxify:3"></div>
             </div>

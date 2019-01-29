@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { SchedulerConfig, schedulerViews } from '../../../models/scheduler-config.model';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { SchedulerConfig } from '../../../models/scheduler-config.model';
 
 @Component({
     selector: 'slb-scheduler-toolbar',
@@ -7,13 +7,12 @@ import { SchedulerConfig, schedulerViews } from '../../../models/scheduler-confi
     styleUrls: ['./scheduler-toolbar.component.scss']
 })
 export class SchedulerToolbarComponent implements OnInit {
-    private schedulerViews: SchedulerConfig[];
     private viewIndex: number;
 
+    @Input() schedulerViews: SchedulerConfig[];
     @Output() configChanged: EventEmitter<SchedulerConfig>;
 
     constructor() {
-        this.schedulerViews = schedulerViews;
         this.configChanged = new EventEmitter<SchedulerConfig>();
     }
 

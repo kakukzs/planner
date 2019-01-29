@@ -1,5 +1,6 @@
 <div class="day" [ngClass]="{weekend: isWeekend()}">
-  <div class="today-line" *ngIf="isToday()" [ngStyle]="{left: ellapsedFromToday}"></div>
-  <div class="am"></div>
-  <div class="pm"></div>
+    <div class="today-line" *ngIf="isToday()" [ngStyle]="{left: ellapsedFromToday}"></div>
+    <div *ngFor="let time of timeArray" class="time-slot">
+        <div class="slot-label">{{time | date:'h:mm'}}</div>
+    </div>
 </div>

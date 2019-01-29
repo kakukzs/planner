@@ -5,6 +5,8 @@ import { products } from './products';
 import { SchedulerEvent } from '../../models/scheduler-event.model';
 import { SchedulerService } from '../../services/scheduler.service';
 import { SchedulerConfig } from '../../models/scheduler-config.model';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'app-planning-home',
@@ -16,6 +18,8 @@ export class PlanningHomeComponent implements OnInit {
     gridData: any[] = products;
 
     dates: Date[];
+
+    events$: BehaviorSubject<SchedulerEvent[]>;
 
     public resources: Resource[] = [{
         name: 'Bays',
@@ -36,28 +40,9 @@ export class PlanningHomeComponent implements OnInit {
         orientation: 'vertical'
     };
 
-    events: SchedulerEvent[] = [
-        {
-            title: 'Meeting with subordinates',
-            OwnerID: 1,
-            start: (function () { const d = new Date(); d.setDate(d.getDate() + 2); return d; }()),
-            end: (function () { const d = new Date(); d.setDate(d.getDate() + 2); d.setMinutes(d.getMinutes() + 60); return d; }())
-        },
-        {
-            title: 'Testing approach clarification',
-            OwnerID: 1,
-            start: (function () { const d = new Date(); d.setDate(d.getDate() + 2); return d; }()),
-            end: (function () { const d = new Date(); d.setDate(d.getDate() + 2); d.setMinutes(d.getMinutes() + 60); return d; }())
-        },
-        {
-            title: 'Knowledge share with client',
-            OwnerID: 4,
-            start: (function () { const d = new Date(); d.setDate(d.getDate()); return d; }()),
-            end: (function () { const d = new Date(); d.setDate(d.getDate() + 2); d.setMinutes(d.getMinutes() + 60); return d; }())
-        }
-    ];
-
-    constructor(private schedulerService: SchedulerService) { }
+    constructor(private schedulerService: SchedulerService) {
+        this.events$ = this.schedulerService.getEventsObservable();
+    }
 
     ngOnInit() {
         this.schedulerService.getConfigObservable().subscribe((config: SchedulerConfig) => {
@@ -68,9 +53,6 @@ export class PlanningHomeComponent implements OnInit {
     getDroplistIds(): string[] {
         const lists = [];
         for (let i = 0; i < this.dates.length; i++) {
-            // this.connectedLists.push(this.eventListRefArr
-            //  .filter((item: ElementRef, idx) => i !== idx)
-            //  .map((value: ElementRef) => value));
             for (const resourceGroup of this.resources) {
                 for (const resource of resourceGroup.data) {
                     lists.push(`droplist-${resource[resourceGroup.valueField]}-${i}`);
@@ -83,7 +65,14 @@ export class PlanningHomeComponent implements OnInit {
         return lists;
     }
 
-    log(object) {
-        console.log(object);
+    drop(event: CdkDragDrop<SchedulerEvent[]>) {
+        if (event.previousContainer === event.container) {
+            moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+        } else {
+            transferArrayItem(event.previousContainer.data,
+                event.container.data,
+                event.previousIndex,
+                event.currentIndex);
+        }
     }
 }

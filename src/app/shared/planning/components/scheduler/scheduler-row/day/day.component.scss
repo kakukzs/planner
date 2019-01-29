@@ -16,36 +16,24 @@
   height: 100%;
   justify-content: space-evenly;
   
-  .am {
-    border-right: 1px dashed #333;
+  .time-slot {
+    border-left: 1px dashed #333;
     flex: 1;
     height: 100%;
     padding-left: 5px;
     padding-top: 20px;
     position: relative;
 
-    &:before {
-      content: "AM";
+    .slot-label {
       font-size: 10px;
+      pointer-events: none;
       position: absolute;
-      right: 5px;
+      left: 5px;
       top: 0px;
     }
-  }
 
-  .pm {
-    flex: 1;
-    height: 100%;
-    padding-left: 5px;
-    padding-top: 20px;
-    position: relative;
-
-    &:before {
-      content: "PM";
-      font-size: 10px;
-      position: absolute;
-      right: 5px;
-      top: 0px;
+    &:first-child {
+        border: 0;
     }
   }
 

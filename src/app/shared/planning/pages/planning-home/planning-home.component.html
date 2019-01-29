@@ -23,7 +23,7 @@
     </kendo-grid-column>
 </kendo-grid>
 <hr>
-<kendo-scheduler [kendoSchedulerBinding]="events" [resources]="resources" [group]="kendoGroup">
+<kendo-scheduler [kendoSchedulerBinding]="events$ | async" [resources]="resources" [group]="kendoGroup">
     <kendo-scheduler-timeline-week-view showWorkHours="true" slotDuration="240" slotDivisions="1" workDayEnd="16:00">
         <ng-template kendoSchedulerEventTemplate let-dataItem>
             <div class="event">
@@ -33,4 +33,4 @@
     </kendo-scheduler-timeline-week-view>
 </kendo-scheduler>
 <hr>
-<slb-scheduler [events]="events" [resources]="resources" [lists]="getDroplistIds()"></slb-scheduler>
+<slb-scheduler [events]="events$ | async" [resources]="resources" [lists]="getDroplistIds()"></slb-scheduler>
