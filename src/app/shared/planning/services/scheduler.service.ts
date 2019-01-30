@@ -30,9 +30,7 @@ export class SchedulerService {
         }
         for (let i = 0; i < lengthOfWeek; i++) {
             const date = new Date();
-            date.setFullYear(fromDate.getFullYear());
-            date.setMonth(fromDate.getMonth());
-            date.setDate(fromDate.getDate());
+            date.setTime(fromDate.getTime());
             date.setHours(0);
             date.setMinutes(0);
             date.setSeconds(0);

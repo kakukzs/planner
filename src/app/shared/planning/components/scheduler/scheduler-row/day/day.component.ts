@@ -60,9 +60,7 @@ export class DayComponent implements OnInit, OnDestroy {
 
     isWeekend() {
         const date: Date = new Date();
-        date.setDate(this.date.getDate());
-        date.setMonth(this.date.getMonth());
-        date.setFullYear(this.date.getFullYear());
+        date.setTime(this.date.getTime());
         return date.getDay() < 1 || date.getDay() > 5;
     }
 }
