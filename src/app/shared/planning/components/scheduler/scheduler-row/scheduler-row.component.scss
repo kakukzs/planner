@@ -2,7 +2,7 @@
   display: block;
   
   > /deep/ * {
-    height: 100px;
+    height: 70px;
   }
 
   .week {
@@ -24,46 +24,22 @@
     width: 100%;
 
     .event-holder {
-      flex: 1;
       height: 100%;
       pointer-events: all;
+      position: relative;
 
       &.dummy {
         pointer-events: none;
       }
     }
 
-    .event {
-      border-radius: 3px;
-      float: left;
-      font-size: 12px;
-      margin-right: 3px;
-      padding: 3px;
-      position: relative;
-    
-      .event-drag-handle {
+    .event-drag-handle {
         height: 100%;
         left: 0;
         position: absolute;
         top: 0;
-        width: 50%;
+        width: calc(100% - 10px);
       }
-    
-      &:nth-child(1) {
-        background-color: blue;
-        color: #fff;
-      }
-    
-      &:nth-child(2) {
-        background-color: brown;
-        color: #fff;
-      }
-    
-      &:nth-child(3) {
-        background-color: darkviolet;
-        color: #fff;
-      }
-    }
   }
 }
 

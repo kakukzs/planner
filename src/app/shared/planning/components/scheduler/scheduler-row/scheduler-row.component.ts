@@ -60,19 +60,40 @@ export class SchedulerRowComponent implements OnChanges {
         return this.myEvents.get(date);
     }
 
-    drop(event: CdkDragDrop<[Date, number]>) {
+    drop(event: CdkDragDrop<number>) {
         const droplistData = event.container.data;
         const schedulerEvent: SchedulerEvent = event.item.data;
-        const end = new Date();
-        end.setTime(droplistData[0].getTime() + schedulerEvent.end.getTime() - schedulerEvent.start.getTime());
+        //console.log(event);
+        //const end = new Date();
+        //end.setTime(droplistData[0].getTime() + schedulerEvent.end.getTime() - schedulerEvent.start.getTime());
         this.eventChanged.emit({
             oldEvent: schedulerEvent,
             newEvent: {
                 ...schedulerEvent,
-                OwnerID: droplistData[1],
-                start: droplistData[0],
-                end
+                OwnerID: droplistData,
+                //start: droplistData[0],
+                //end
             }
         });
+    }
+
+    getEventOffset(event: SchedulerEvent): string {
+        const date = this.dates.find((d: Date) => d.getFullYear() === event.start.getFullYear()
+            && d.getMonth() === event.start.getMonth() && d.getDate() === event.start.getDate());
+        if (!date) {
+            return '0';
+        }
+        const offset = this.dates.indexOf(date) / this.dates.length;
+        const eventStartTime = event.start.getHours() * 60 + event.start.getMinutes();
+        const configStartTime = this.config.startTime.getHours() * 60 + this.config.startTime.getMinutes();
+        const configTimeRange = this.config.endTime.getHours() * 60 + this.config.endTime.getMinutes()
+            - this.config.startTime.getHours() * 60 - this.config.startTime.getMinutes();
+        const dayOffset = Math.max(Math.min(eventStartTime - configStartTime, configTimeRange), 0) / configTimeRange;
+        console.log(offset * 100 + Math.max(dayOffset, 0) * 100 / this.dates.length + '%');
+        return offset * 100 + dayOffset * 100 / this.dates.length + '%';
+    }
+
+    log(o) {
+        console.log(o);
     }
 }

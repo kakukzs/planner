@@ -52,11 +52,9 @@ export class PlanningHomeComponent implements OnInit {
 
     getDroplistIds(): string[] {
         const lists = [];
-        for (let i = 0; i < this.dates.length; i++) {
-            for (const resourceGroup of this.resources) {
-                for (const resource of resourceGroup.data) {
-                    lists.push(`droplist-${resource[resourceGroup.valueField]}-${i}`);
-                }
+        for (const resourceGroup of this.resources) {
+            for (const resource of resourceGroup.data) {
+                lists.push(`droplist-${resource[resourceGroup.valueField]}`);
             }
         }
         for (let i = 0; i < this.gridData.length; i++) {

@@ -18,6 +18,7 @@ import { FieldNamesPipe } from './pipes/field-names.pipe';
 import { SchedulerService } from './services/scheduler.service';
 import { SchedulerToolbarComponent } from './components/scheduler/scheduler-toolbar/scheduler-toolbar.component';
 import { FormsModule } from '@angular/forms';
+import { SchedulerEventComponent } from './components/scheduler/scheduler-event/scheduler-event.component';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,8 @@ import { FormsModule } from '@angular/forms';
         SchedulerHeaderComponent,
         SchedulerComponent,
         FieldNamesPipe,
-        SchedulerToolbarComponent],
+        SchedulerToolbarComponent,
+        SchedulerEventComponent],
     imports: [
         CommonModule,
         DragDropModule,
