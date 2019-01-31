@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, HostBinding } from '@angular/core';
-import { SchedulerEvent } from '../../../models/scheduler-event.model';
+import { SchedulerEvent, SchedulerEventRect } from '../../../models/scheduler-event.model';
 
 @Component({
     selector: 'slb-scheduler-event',
@@ -9,10 +9,17 @@ import { SchedulerEvent } from '../../../models/scheduler-event.model';
 export class SchedulerEventComponent implements OnInit {
 
     @Input() event: SchedulerEvent;
+    @Input() offset: SchedulerEventRect;
 
-    @Input()
     @HostBinding('style.left')
-    offset: string;
+    public get left(): string {
+        return this.offset ? (this.offset.left + '%') : '0';
+    }
+
+    @HostBinding('style.width')
+    public get width(): string {
+        return this.offset ? (this.offset.width + '%') : '0';
+    }
 
     constructor() { }
 

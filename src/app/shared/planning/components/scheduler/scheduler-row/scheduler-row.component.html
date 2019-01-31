@@ -5,13 +5,14 @@
         <div class="dummy event-holder" [ngStyle]="{width: config.resourceColumnWidth * 100 / (dates.length + 1) + '%'}"></div>
         <div class="event-holder" cdkDropList #eventList="cdkDropList" [cdkDropListData]="resource[fieldNames.valueField]"
             [cdkDropListConnectedTo]="lists" (cdkDropListDropped)="drop($event)" id="{{'droplist-' + resource[fieldNames.valueField]}}"
-            [ngStyle]="{width: 100 - 100 / (dates.length + 1) + '%'}">
+            [ngStyle]="{width: 100 - config.resourceColumnWidth * 100 / (dates.length + 1) + '%'}" #eventHolder>
             <ng-container *ngFor="let date of dates">
                 <slb-scheduler-event *ngFor="let event of getMyEvents(date)" [event]="event" [offset]="getEventOffset(event)"
                     cdkDrag [cdkDragData]="event" mwlResizable [resizeCursorPrecision]="10" [enableGhostResize]="true"
-                    [resizeEdges]="{right: true}" [resizeSnapGrid]="{right: 10}" (resizeEnd)="log($event)"
-                    (cdkDragEntered)="log($event)">
-                    <div class="event-drag-handle" cdkDragHandle></div>
+                    [resizeEdges]="{right: true}" [resizeSnapGrid]="{right: 10}" (mousedown)="mousedown($event)"
+                    (cdkDragStarted)="dragStarted($event)" (cdkDragMoved)="dragMoved($event)" (cdkDragDropped)="dragDropped($event)">
+                    <div class="event-drag-handle" cdkDragHandle #eventElementHandle></div>
+                    <slb-scheduler-event *cdkDragPlaceholder [event]="event" [offset]="getEventOffset(event, true)"></slb-scheduler-event>
                 </slb-scheduler-event>
             </ng-container>
         </div>

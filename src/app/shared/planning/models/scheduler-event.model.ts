@@ -57,3 +57,11 @@ export interface SchedulerEvent {
 
     RoomID?: number;
 }
+
+export interface SchedulerEventRect {
+    /* The left offset of the event inside the calendar in percentage */
+    left: number;
+
+    /* The width of the event inside the calendar in percentage */
+    width: number;
+}

@@ -37,6 +37,9 @@ export interface SchedulerConfig {
 
     /* The end time of the calendar day. */
     endTime?: Date;
+
+    /* the size of the steps in minutes where the user can snap the event to */
+    timeStep?: number;
 }
 
 const today = new Date();
@@ -59,18 +62,6 @@ endTime.setMinutes(0);
 endTime.setSeconds(0);
 endTime.setMilliseconds(0);
 
-export const defaultConfig: SchedulerConfig = {
-    start: today,
-    firstDayOfWeek: dayCodes.MO,
-    lengthOfWeek: 7,
-    numberOfWeeks: 1,
-    headerDateFormat: 'normal',
-    resourceColumnWidth: 1,
-    timeSlots: 2,
-    startTime,
-    endTime
-};
-
 export const schedulerViews: SchedulerConfig[] = [
     {
         name: 'day',
@@ -79,7 +70,8 @@ export const schedulerViews: SchedulerConfig[] = [
         numberOfWeeks: 1,
         headerDateFormat: 'long',
         resourceColumnWidth: 0.2,
-        timeSlots: 4
+        timeSlots: 4,
+        timeStep: 15
     },
     {
         name: 'week',
@@ -88,7 +80,8 @@ export const schedulerViews: SchedulerConfig[] = [
         numberOfWeeks: 1,
         headerDateFormat: 'normal',
         resourceColumnWidth: 1,
-        timeSlots: 2
+        timeSlots: 2,
+        timeStep: 30
     },
     {
         name: '3_weeks',
@@ -97,6 +90,15 @@ export const schedulerViews: SchedulerConfig[] = [
         numberOfWeeks: 3,
         headerDateFormat: 'short',
         resourceColumnWidth: 1,
-        timeSlots: 1
+        timeSlots: 1,
+        timeStep: 60
     }
 ];
+
+export const defaultConfig: SchedulerConfig = {
+    start: today,
+    firstDayOfWeek: dayCodes.MO,
+    startTime,
+    endTime,
+    ...schedulerViews[1]
+};

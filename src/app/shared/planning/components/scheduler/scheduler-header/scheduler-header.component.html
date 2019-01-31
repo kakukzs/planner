@@ -1,6 +1,6 @@
-<div class="resource-head {{getHeaderClass()}}" [ngStyle]="{flex: config.resourceColumnWidth}">
+<div class="resource-head {{getHeaderClass()}}" [ngStyle]="{width: config.resourceColumnWidth * 100 / (dates.length + 1) + '%'}">
     <div class="title">&nbsp;</div>
 </div>
-<div *ngFor="let date of dates" class="day {{getHeaderClass()}}">
+<div *ngFor="let date of dates" class="day {{getHeaderClass()}}" [ngStyle]="{width: (100 - config.resourceColumnWidth * 100 / (dates.length + 1)) / dates.length + '%'}">
     {{date | date: getDateFormat()}}
 </div>

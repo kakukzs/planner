@@ -1,11 +1,6 @@
-:host {
-    display: flex;
-    align-items: flex-start;
-}
-
 .resource-head, .day {
     border: 1px solid #333;
-    flex: 1;
+    float: left;
     padding: 3px 0;
     position: relative;
     text-align: center;
