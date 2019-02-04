@@ -64,4 +64,7 @@ export interface SchedulerEventRect {
 
     /* The width of the event inside the calendar in percentage */
     width: number;
+
+    /* Boolean to indicate if the values are in percentage */
+    isPercentage?: boolean;
 }

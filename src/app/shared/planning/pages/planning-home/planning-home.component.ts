@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 
 import { Resource } from '../../models/resource.model';
 import { products } from './products';
-import { SchedulerEvent } from '../../models/scheduler-event.model';
+import { SchedulerEvent, SchedulerEventRect } from '../../models/scheduler-event.model';
 import { SchedulerService } from '../../services/scheduler.service';
-import { SchedulerConfig } from '../../models/scheduler-config.model';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragStart, CdkDragMove } from '@angular/cdk/drag-drop';
 import { BehaviorSubject } from 'rxjs';
+import { EventUIService } from '../../services/event-ui.service';
 
 @Component({
     selector: 'app-planning-home',
@@ -20,6 +20,30 @@ export class PlanningHomeComponent implements OnInit {
     dates: Date[];
 
     events$: BehaviorSubject<SchedulerEvent[]>;
+
+    test = [{
+        title: 'test1',
+        start: (function () {
+            const d = new Date(); d.setHours(10); d.setMinutes(0);
+            d.setSeconds(0); return d;
+        }()),
+        end: (function () {
+            const d = new Date(); d.setHours(16); d.setMinutes(0);
+            d.setSeconds(0); return d;
+        }()),
+        OwnerID: 1
+    }, {
+        title: 'test2',
+        start: (function () {
+            const d = new Date(); d.setHours(10); d.setMinutes(0);
+            d.setSeconds(0); return d;
+        }()),
+        end: (function () {
+            const d = new Date(); d.setHours(16); d.setMinutes(0);
+            d.setSeconds(0); return d;
+        }()),
+        OwnerID: 1
+    }];
 
     public resources: Resource[] = [{
         name: 'Bays',
@@ -40,13 +64,13 @@ export class PlanningHomeComponent implements OnInit {
         orientation: 'vertical'
     };
 
-    constructor(private schedulerService: SchedulerService) {
+    constructor(private schedulerService: SchedulerService, private eventUIService: EventUIService) {
         this.events$ = this.schedulerService.getEventsObservable();
     }
 
     ngOnInit() {
-        this.schedulerService.getConfigObservable().subscribe((config: SchedulerConfig) => {
-            this.dates = this.schedulerService.getDates(config.start, config.firstDayOfWeek, config.lengthOfWeek, config.numberOfWeeks);
+        this.schedulerService.getDatesObservable().subscribe((dates: Date[]) => {
+            this.dates = dates;
         });
     }
 
@@ -61,6 +85,48 @@ export class PlanningHomeComponent implements OnInit {
             lists.push(`category-tags-2-${i}`);
         }
         return lists;
+    }
+
+    createEvents(titles: any[]): SchedulerEvent[] {
+        return titles.map(object => ({
+            title: object.name,
+            start: (function () {
+                const d = new Date(); d.setHours(10); d.setMinutes(0);
+                d.setSeconds(0); return d;
+            }()),
+            end: (function () {
+                const d = new Date(); d.setHours(16); d.setMinutes(0);
+                d.setSeconds(0); return d;
+            }()),
+            OwnerID: 1
+        }));
+    }
+
+    getEventOffset(event: SchedulerEvent, addOffset: boolean = false): SchedulerEventRect {
+        return {
+            left: 0,
+            width: 100
+        };
+    }
+
+    mousedown(event: MouseEvent) {
+        this.eventUIService.mousedown(event);
+    }
+
+    dragStarted(dragStart: CdkDragStart<SchedulerEvent>) {
+        this.eventUIService.dragStarted(dragStart);
+    }
+
+    dragMoved(dragMove: CdkDragMove) {
+        this.eventUIService.dragMoved(dragMove);
+    }
+
+    dragDropped(dragDrop: CdkDragDrop<SchedulerEvent>) {
+        this.eventUIService.dragDropped(dragDrop);
+    }
+
+    isEventHolderRegistered(): boolean {
+        return this.eventUIService.isEventHolderRegistered();
     }
 
     drop(event: CdkDragDrop<SchedulerEvent[]>) {

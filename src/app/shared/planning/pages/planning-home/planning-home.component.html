@@ -5,6 +5,13 @@
     </kendo-grid-column>
     <kendo-grid-column field="Category" title="Category">
         <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex">
+            <div class="tag-container" id="{{'category-tags-' + columnIndex + '-' + rowIndex}}" cdkDropList>
+                <div class="tag" *ngFor="let event of test" cdkDrag [cdkDragData]="event" (mousedown)="mousedown($event)"
+                    (cdkDragStarted)="dragStarted($event)" (cdkDragMoved)="dragMoved($event)" (cdkDragDropped)="dragDropped($event)">
+                    {{event.title}}
+                    <slb-scheduler-event *cdkDragPreview [event]="event" [offset]="getEventOffset(event, true)"></slb-scheduler-event>
+                </div>
+            </div>
             <div class="tag-container" id="{{'category-tags-' + columnIndex + '-' + rowIndex}}" cdkDropList
                 (cdkDropListDropped)="drop($event)" #resourcesListRef="cdkDropList" [cdkDropListData]="dataItem.Category"
                 [cdkDropListConnectedTo]="getDroplistIds()">

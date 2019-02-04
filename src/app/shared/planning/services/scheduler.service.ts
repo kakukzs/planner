@@ -6,6 +6,7 @@ import { events } from './events.data';
 
 export class SchedulerService {
     private config$: BehaviorSubject<SchedulerConfig>;
+    private dates$: BehaviorSubject<Date[]>;
     private events$: BehaviorSubject<SchedulerEvent[]>;
 
     private defaultConfig: SchedulerConfig = defaultConfig;
@@ -17,8 +18,12 @@ export class SchedulerService {
         this.currentConfig = this.defaultConfig;
         this.events = events;
         this.config$ = new BehaviorSubject<SchedulerConfig>(this.currentConfig);
+        this.dates$ = new BehaviorSubject<Date[]>(null);
         this.events$ = new BehaviorSubject<SchedulerEvent[]>(this.events);
         this.schedulerViews = schedulerViews;
+        this.config$.subscribe((config: SchedulerConfig) => {
+            this.dates$.next(this.getDates(config.start, config.firstDayOfWeek, config.lengthOfWeek, config.numberOfWeeks));
+        });
     }
 
     private _getDates(start: Date, firstDayOfWeek: dayCodes, lengthOfWeek: number): Date[] {
@@ -41,7 +46,7 @@ export class SchedulerService {
         return dates;
     }
 
-    public getDates(start: Date, firstDayOfWeek: dayCodes,
+    private getDates(start: Date, firstDayOfWeek: dayCodes,
         lengthOfWeek: number, numberOfWeeks: number): Date[] {
         let dates: Date[] = [];
         for (let i = 0; i < numberOfWeeks; i++) {
@@ -58,6 +63,10 @@ export class SchedulerService {
 
     public getConfigObservable(): BehaviorSubject<SchedulerConfig> {
         return this.config$;
+    }
+
+    public getDatesObservable(): BehaviorSubject<Date[]> {
+        return this.dates$;
     }
 
     public updateConfig(newConfig: SchedulerConfig) {

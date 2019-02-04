@@ -13,12 +13,12 @@ export class SchedulerEventComponent implements OnInit {
 
     @HostBinding('style.left')
     public get left(): string {
-        return this.offset ? (this.offset.left + '%') : '0';
+        return this.offset ? (this.offset.left + (this.offset.isPercentage ? '%' : 'px')) : '0';
     }
 
     @HostBinding('style.width')
     public get width(): string {
-        return this.offset ? (this.offset.width + '%') : '0';
+        return this.offset ? (this.offset.width + (this.offset.isPercentage ? '%' : 'px')) : '0';
     }
 
     constructor() { }

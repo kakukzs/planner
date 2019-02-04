@@ -70,7 +70,7 @@ export const schedulerViews: SchedulerConfig[] = [
         numberOfWeeks: 1,
         headerDateFormat: 'long',
         resourceColumnWidth: 0.2,
-        timeSlots: 4,
+        timeSlots: 8,
         timeStep: 15
     },
     {

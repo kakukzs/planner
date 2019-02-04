@@ -19,7 +19,9 @@ export class SchedulerComponent implements OnInit, OnDestroy {
     @Input() lists: string[] = [];
 
     config$: BehaviorSubject<SchedulerConfig>;
+    dates$: BehaviorSubject<Date[]>;
     configSubscription: Subscription;
+    datesSubscription: Subscription;
     schedulerViews: SchedulerConfig[];
     dates: Date[];
 
@@ -31,14 +33,18 @@ export class SchedulerComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.config$ = this.schedulerService.getConfigObservable();
+        this.dates$ = this.schedulerService.getDatesObservable();
         this.configSubscription = this.config$.subscribe((config: SchedulerConfig) => {
-            this.dates = this.schedulerService.getDates(config.start, config.firstDayOfWeek, config.lengthOfWeek, config.numberOfWeeks);
             this.resourceColumnWidth = config.resourceColumnWidth;
+        });
+        this.datesSubscription = this.dates$.subscribe((dates: Date[]) => {
+            this.dates = dates;
         });
     }
 
     ngOnDestroy() {
         this.configSubscription.unsubscribe();
+        this.datesSubscription.unsubscribe();
     }
 
     onConfigChanged(newConfig: SchedulerConfig) {
