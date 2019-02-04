@@ -5,7 +5,7 @@ import { Resource } from '../../../models/resource.model';
 import { SchedulerService } from '../../../services/scheduler.service';
 import { SchedulerEvent, SchedulerEventRect } from '../../../models/scheduler-event.model';
 import { SchedulerConfig } from '../../../models/scheduler-config.model';
-import { EventUIService } from '../../../services/event-ui.service';
+import { DragAndDropService } from '../../../services/drag-and-drop.service';
 
 
 @Component({
@@ -32,7 +32,7 @@ export class SchedulerRowComponent implements OnChanges, OnInit {
 
     constructor(
         private schedulerService: SchedulerService,
-        private eventUIService: EventUIService,
+        private dragAndDropService: DragAndDropService,
         private renderer: Renderer2) {
         this.eventChanged = new EventEmitter<{ oldEvent: SchedulerEvent, newEvent: SchedulerEvent }>();
     }
@@ -47,7 +47,7 @@ export class SchedulerRowComponent implements OnChanges, OnInit {
     }
 
     ngOnInit() {
-        this.eventUIService.registerEventHolderElement(this.eventHolder);
+        this.dragAndDropService.registerEventHolderElement(this.eventHolder);
     }
 
     filterMyEvents(date: Date): SchedulerEvent[] {
@@ -68,30 +68,30 @@ export class SchedulerRowComponent implements OnChanges, OnInit {
         const droplistData = event.container.data;
         const schedulerEvent: SchedulerEvent = event.item.data;
         if (schedulerEvent) {
-            this.eventChanged.emit(this.eventUIService.existingEventDropped(schedulerEvent, droplistData));
+            this.eventChanged.emit(this.dragAndDropService.existingEventDropped(schedulerEvent, droplistData));
         } else {
-            this.eventUIService.newEventDropped(droplistData);
+            this.dragAndDropService.newEventDropped(droplistData);
         }
 
     }
 
     getEventOffset(event: SchedulerEvent, addOffset: boolean = false): SchedulerEventRect {
-        return this.eventUIService.getEventOffset(event, addOffset);
+        return this.dragAndDropService.getEventOffset(event, addOffset);
     }
 
     mousedown(event: MouseEvent) {
-        this.eventUIService.mousedown(event);
+        this.dragAndDropService.mousedown(event);
     }
 
     dragStarted(dragStart: CdkDragStart<SchedulerEvent>) {
-        this.eventUIService.dragStarted(dragStart);
+        this.dragAndDropService.dragStarted(dragStart);
     }
 
     dragMoved(dragMove: CdkDragMove) {
-        this.eventUIService.dragMoved(dragMove);
+        this.dragAndDropService.dragMoved(dragMove);
     }
 
     dragDropped(dragDrop: CdkDragDrop<SchedulerEvent>) {
-        this.eventUIService.dragDropped(dragDrop);
+        this.dragAndDropService.dragDropped(dragDrop);
     }
 }

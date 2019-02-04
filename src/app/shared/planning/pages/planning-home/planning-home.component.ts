@@ -6,7 +6,7 @@ import { SchedulerEvent, SchedulerEventRect } from '../../models/scheduler-event
 import { SchedulerService } from '../../services/scheduler.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragStart, CdkDragMove } from '@angular/cdk/drag-drop';
 import { BehaviorSubject } from 'rxjs';
-import { EventUIService } from '../../services/event-ui.service';
+import { DragAndDropService } from '../../services/drag-and-drop.service';
 
 @Component({
     selector: 'app-planning-home',
@@ -64,7 +64,7 @@ export class PlanningHomeComponent implements OnInit {
         orientation: 'vertical'
     };
 
-    constructor(private schedulerService: SchedulerService, private eventUIService: EventUIService) {
+    constructor(private schedulerService: SchedulerService, private dragAndDropService: DragAndDropService) {
         this.events$ = this.schedulerService.getEventsObservable();
     }
 
@@ -110,23 +110,23 @@ export class PlanningHomeComponent implements OnInit {
     }
 
     mousedown(event: MouseEvent) {
-        this.eventUIService.mousedown(event);
+        this.dragAndDropService.mousedown(event);
     }
 
     dragStarted(dragStart: CdkDragStart<SchedulerEvent>) {
-        this.eventUIService.dragStarted(dragStart);
+        this.dragAndDropService.dragStarted(dragStart);
     }
 
     dragMoved(dragMove: CdkDragMove) {
-        this.eventUIService.dragMoved(dragMove);
+        this.dragAndDropService.dragMoved(dragMove);
     }
 
     dragDropped(dragDrop: CdkDragDrop<SchedulerEvent>) {
-        this.eventUIService.dragDropped(dragDrop);
+        this.dragAndDropService.dragDropped(dragDrop);
     }
 
     isEventHolderRegistered(): boolean {
-        return this.eventUIService.isEventHolderRegistered();
+        return this.dragAndDropService.isEventHolderRegistered();
     }
 
     drop(event: CdkDragDrop<SchedulerEvent[]>) {

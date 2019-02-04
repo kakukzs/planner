@@ -19,7 +19,7 @@ import { SchedulerService } from './services/scheduler.service';
 import { SchedulerToolbarComponent } from './components/scheduler/scheduler-toolbar/scheduler-toolbar.component';
 import { FormsModule } from '@angular/forms';
 import { SchedulerEventComponent } from './components/scheduler/scheduler-event/scheduler-event.component';
-import { EventUIService } from './services/event-ui.service';
+import { DragAndDropService } from './services/drag-and-drop.service';
 
 @NgModule({
     declarations: [
@@ -44,6 +44,6 @@ import { EventUIService } from './services/event-ui.service';
         HttpClientJsonpModule,
         PlanningRoutingModule
     ],
-    providers: [SchedulerService, EventUIService]
+    providers: [SchedulerService, DragAndDropService]
 })
 export class PlanningModule { }

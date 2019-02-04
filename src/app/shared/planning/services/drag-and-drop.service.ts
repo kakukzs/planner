@@ -5,7 +5,7 @@ import { SchedulerService } from './scheduler.service';
 import { CdkDragDrop, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 
 @Injectable()
-export class EventUIService {
+export class DragAndDropService {
     config: SchedulerConfig;
     dates: Date[];
 
