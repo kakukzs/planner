@@ -7,7 +7,7 @@
         [cdkDropListConnectedTo]="[]">
         <slb-scheduler-row *ngFor="let resource of resourceGroup.data" [resource]="resource" [dates]="dates" [events]="events"
             [fieldNames]="resourceGroup | fieldNames" [lists]="lists" [config]="config$ | async" (eventChanged)="eventChanged($event)"
-            cdkDrag>
+            (newEvent)="newEvent($event)" cdkDrag>
             <slb-resource [resource]="resource" [fieldNames]="resourceGroup | fieldNames" cdkDragHandle [config]="config$ | async"
                 [dates]="dates"></slb-resource>
         </slb-scheduler-row>

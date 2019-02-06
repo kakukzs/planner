@@ -23,6 +23,7 @@ export class SchedulerRowComponent implements OnChanges, OnInit {
     @Input() config: SchedulerConfig;
 
     @Output() eventChanged: EventEmitter<{ oldEvent: SchedulerEvent, newEvent: SchedulerEvent }>;
+    @Output() newEvent: EventEmitter<SchedulerEvent>;
 
     @ViewChild('eventHolder') eventHolder: ElementRef;
 
@@ -35,6 +36,7 @@ export class SchedulerRowComponent implements OnChanges, OnInit {
         private dragAndDropService: DragAndDropService,
         private renderer: Renderer2) {
         this.eventChanged = new EventEmitter<{ oldEvent: SchedulerEvent, newEvent: SchedulerEvent }>();
+        this.newEvent = new EventEmitter<SchedulerEvent>();
     }
 
     ngOnChanges() {
@@ -68,11 +70,13 @@ export class SchedulerRowComponent implements OnChanges, OnInit {
         const droplistData = event.container.data;
         const schedulerEvent: SchedulerEvent = event.item.data;
         if (schedulerEvent) {
-            this.eventChanged.emit(this.dragAndDropService.existingEventDropped(schedulerEvent, droplistData));
-        } else {
-            this.dragAndDropService.newEventDropped(droplistData);
+            if (this.events.includes(schedulerEvent)) {
+                this.eventChanged.emit(this.dragAndDropService.existingEventDropped(schedulerEvent, droplistData));
+            } else {
+                schedulerEvent.OwnerID = droplistData;
+                this.newEvent.emit(this.dragAndDropService.newEventDropped(schedulerEvent));
+            }
         }
-
     }
 
     getEventOffset(event: SchedulerEvent, addOffset: boolean = false): SchedulerEventRect {

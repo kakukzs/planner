@@ -81,9 +81,9 @@ export class PlanningHomeComponent implements OnInit {
                 lists.push(`droplist-${resource[resourceGroup.valueField]}`);
             }
         }
-        for (let i = 0; i < this.gridData.length; i++) {
+        /*for (let i = 0; i < this.gridData.length; i++) {
             lists.push(`category-tags-2-${i}`);
-        }
+        }*/
         return lists;
     }
 
@@ -115,6 +115,7 @@ export class PlanningHomeComponent implements OnInit {
 
     dragStarted(dragStart: CdkDragStart<SchedulerEvent>) {
         this.dragAndDropService.dragStarted(dragStart);
+        //this.schedulerService.addEvent(dragStart.source.data);
     }
 
     dragMoved(dragMove: CdkDragMove) {

@@ -84,4 +84,13 @@ export class SchedulerService {
         ];
         this.events$.next(this.events);
     }
+
+    public addEvent(newEvent: SchedulerEvent) {
+        newEvent.id = ~~(Math.random() * 1000);
+        this.events = [
+            ...this.events,
+            newEvent
+        ];
+        this.events$.next(this.events);
+    }
 }

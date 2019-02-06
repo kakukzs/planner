@@ -2,6 +2,7 @@ import { SchedulerEvent } from '../models/scheduler-event.model';
 
 export const events: SchedulerEvent[] = [
     {
+        id: 1,
         title: 'Meeting with subordinates',
         OwnerID: 1,
         start: (function () {
@@ -16,6 +17,7 @@ export const events: SchedulerEvent[] = [
         }())
     },
     {
+        id: 2,
         title: 'Testing approach clarification',
         OwnerID: 2,
         start: (function () {
@@ -28,6 +30,7 @@ export const events: SchedulerEvent[] = [
         }())
     },
     {
+        id: 3,
         title: 'Knowledge share with client',
         OwnerID: 4,
         start: (function () { const d = new Date(); d.setDate(d.getDate()); return d; }()),

@@ -60,7 +60,17 @@ export class DragAndDropService {
     }
 
     getConfigTimeRange(): number {
-        const range = (this.config.endTime.getTime() - this.config.startTime.getTime()) / 60000;
+        const startTime = new Date(this.config.startTime);
+        startTime.setHours(0);
+        startTime.setMinutes(0);
+        startTime.setSeconds(0);
+        startTime.setMilliseconds(0);
+        const endTime = new Date(this.config.endTime);
+        endTime.setHours(0);
+        endTime.setMinutes(0);
+        endTime.setSeconds(0);
+        endTime.setMilliseconds(0);
+        const range = (endTime.getTime() - startTime.getTime()) / 60000;
         return range
             + this.config.endTime.getHours() * 60 + this.config.endTime.getMinutes()
             - this.config.startTime.getHours() * 60 - this.config.startTime.getMinutes();
@@ -84,8 +94,8 @@ export class DragAndDropService {
         };
     }
 
-    newEventDropped(toListId: number) {
-
+    newEventDropped(schedulerEvent: SchedulerEvent): SchedulerEvent {
+        return schedulerEvent;
     }
 
     mousedown(event: MouseEvent) {
@@ -135,6 +145,15 @@ export class DragAndDropService {
 
     dragDropped(dragDrop: CdkDragDrop<SchedulerEvent>) {
         this.deltaOffsetX = 0;
+    }
+
+    startDragging(id: number) {
+        setTimeout(() => {
+            const el: HTMLElement = document.querySelector(`#slb_event_${id}`) as HTMLElement;
+            const mouseDownEvent = document.createEvent('MouseEvents');
+            mouseDownEvent.initEvent('mousedown', true, true);
+            el.dispatchEvent(mouseDownEvent);
+        }, 50);
     }
 
     registerEventHolderElement(eventHolder: ElementRef) {

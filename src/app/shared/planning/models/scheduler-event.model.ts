@@ -7,7 +7,7 @@ export interface SchedulerEvent {
      * Typically, the ID is a number.
      * Can also be a string or an object.
      */
-    id?: any;
+    id?: number;
     /**
      * A reference to the original data item, if any.
      */

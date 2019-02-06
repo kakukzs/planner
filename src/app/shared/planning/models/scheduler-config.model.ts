@@ -50,14 +50,14 @@ today.setMilliseconds(0);
 
 /* The default start time is 8:00 */
 const startTime: Date = new Date();
-startTime.setHours(8);
+startTime.setHours(0);
 startTime.setMinutes(0);
 startTime.setSeconds(0);
 startTime.setMilliseconds(0);
 
 /* The default end time is 16:00 */
 const endTime: Date = new Date();
-endTime.setHours(16);
+endTime.setHours(24);
 endTime.setMinutes(0);
 endTime.setSeconds(0);
 endTime.setMilliseconds(0);

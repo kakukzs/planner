@@ -65,4 +65,8 @@ export class SchedulerComponent implements OnInit, OnDestroy {
     eventChanged(event: { oldEvent: SchedulerEvent, newEvent: SchedulerEvent }) {
         this.schedulerService.updateEvent(event.oldEvent, event.newEvent);
     }
+
+    newEvent(schedulerEvent: SchedulerEvent) {
+        this.schedulerService.addEvent(schedulerEvent);
+    }
 }
